@@ -10,7 +10,7 @@ let tests =
         let encoder = new ASCIIEncoding()
         let toBytes (y: string): byte [] = y.ToCharArray() |> Array.map (byte)
         x |> List.map (toBytes >> encoder.GetString)
-      let commonData = ["1235"; "123"; "test\x20"] |> toAscii
+      let commonData = ["1235"; "123"; "test\x7f"] |> toAscii
 
       testList "примеры" [
         test "посчитать количество строк" {

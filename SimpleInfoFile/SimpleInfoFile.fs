@@ -2,6 +2,7 @@
 
 
 module SimpleInfoFile = 
+    open System.IO
 
     type InfoFile = 
         {
@@ -17,7 +18,7 @@ module SimpleInfoFile =
 
     ///Посчитать количество печатаемых символов в ASCII тексте
     let countAsciiSymbols: InfoData =
-        let isPrintableAscii (x: char): bool = x >= '\x31' && x <= '\x7e'
+        let isPrintableAscii (x: char): bool = x >= '\x20' && x <= '\x7e'
         fun y -> y |> List.map (fun x -> x |> String.filter isPrintableAscii |> String.length) |> List.sum
     
     ///Посчитать размер ASCII текста в байтах
@@ -26,8 +27,16 @@ module SimpleInfoFile =
         countAsciiSymbols >> sizeAscii
 
     let getInfoFile (path: string): InfoFile = 
-        { 
-            CountLines = 0
-            CountAsciiSymbols = 0
-            SizeInBytesAscii = 0
-        }
+        let read = [
+            use sr = new StreamReader (path)
+            while not sr.EndOfStream do
+                yield sr.ReadLine()
+        ]
+        let data = read
+        let result = 
+            {
+                CountLines = countLine data
+                CountAsciiSymbols = countAsciiSymbols data
+                SizeInBytesAscii = calcSizeDataInBytesAscii data
+            }
+        result
