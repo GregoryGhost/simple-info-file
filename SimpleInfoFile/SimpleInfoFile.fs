@@ -17,7 +17,7 @@ module SimpleInfoFile =
 
     ///Посчитать количество печатаемых символов в ASCII тексте
     let countAsciiSymbols: InfoData =
-        let isPrintableAscii = not << System.Char.IsControl
+        let isPrintableAscii (x: char): bool = x >= '\x31' && x <= '\x7e'
         fun y -> y |> List.map (fun x -> x |> String.filter isPrintableAscii |> String.length) |> List.sum
     
     ///Посчитать размер ASCII текста в байтах
