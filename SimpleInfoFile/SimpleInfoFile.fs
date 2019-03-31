@@ -13,13 +13,17 @@ module SimpleInfoFile =
     type InfoData = string list -> int
 
     let countLine: InfoData =
-        fun x -> 3
+        List.length
 
-    let calcSizeDataInBytes: InfoData =
-        fun x -> 3
-
+    ///Посчитать количество печатаемых символов в ASCII тексте
     let countAsciiSymbols: InfoData =
-        fun x -> 3
+        let isPrintableAscii = not << System.Char.IsControl
+        fun y -> y |> List.map (fun x -> x |> String.filter isPrintableAscii |> String.length) |> List.sum
+    
+    ///Посчитать размер ASCII текста в байтах
+    let calcSizeDataInBytesAscii: InfoData =
+        let sizeAscii x = x * 1
+        countAsciiSymbols >> sizeAscii
 
     let getInfoFile (path: string): InfoFile = 
         { 
