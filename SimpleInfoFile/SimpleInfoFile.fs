@@ -7,7 +7,7 @@ module SimpleInfoFile =
         {
             CountLines: int
             CountAsciiSymbols: int
-            SizeInBytes: int 
+            SizeInBytesAscii: int 
         }
 
     type InfoData = string list -> int
@@ -25,5 +25,5 @@ module SimpleInfoFile =
         { 
             CountLines = 0
             CountAsciiSymbols = 0
-            SizeInBytes = 0
+            SizeInBytesAscii = 0
         }
