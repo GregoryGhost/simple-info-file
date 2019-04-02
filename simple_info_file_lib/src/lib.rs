@@ -5,6 +5,8 @@ mod tests {
     use crate::simple_info_file::simple_info_file::count_line;
     use crate::simple_info_file::simple_info_file::count_printable_ascii_symbols;
     use crate::simple_info_file::simple_info_file::calc_size_data_in_ascii_bytes;
+    use crate::simple_info_file::simple_info_file::get_info_file;
+    use crate::simple_info_file::simple_info_file::InfoFile;
 
     const COMMON_DATA: &'static [&'static str] = &["1235", "123", "test\x7f"];
 
@@ -34,6 +36,13 @@ mod tests {
 
     #[test]
     fn check_get_info_file() {
-        panic!("todo");
+        let actual = get_info_file("test.txt");
+        let expected = InfoFile {
+            lines: 3,
+            printable_ascii_symbols: 14,
+            size_in_bytes_ascii: 14
+        };
+
+        assert_eq!(format!("{:?}", actual), format!("{:?}", expected));
     }
 }
