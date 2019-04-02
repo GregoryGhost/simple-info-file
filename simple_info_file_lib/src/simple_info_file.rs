@@ -1,5 +1,5 @@
 pub mod simple_info_file {
-    fn count_ascii_chars(data: &[& str], _callback: fn(char) -> bool) -> usize {
+    fn count_ascii_chars(data: &[&str], _callback: fn(char) -> bool) -> usize {
         let mut acc_ascii: usize = 0;
         for x in data {
             acc_ascii += x.chars().fold(0, |acc, i| match _callback(i) {
@@ -18,8 +18,8 @@ pub mod simple_info_file {
         count_ascii_chars(data, |i| '\x20' <= i && i <= '\x7E')
     }
 
-    fn calc_size_data_in_ascii_bytes(data: &str) -> i32 {
-        panic!("todo");
+    pub fn calc_size_data_in_ascii_bytes(data: &[&str]) -> usize {
+        count_ascii_chars(data, |i| i.is_ascii())
     }
 
     fn get_info_file(data: &str) -> i32 {

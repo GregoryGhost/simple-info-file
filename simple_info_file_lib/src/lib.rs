@@ -4,6 +4,7 @@
 mod tests {
     use crate::simple_info_file::simple_info_file::count_line;
     use crate::simple_info_file::simple_info_file::count_printable_ascii_symbols;
+    use crate::simple_info_file::simple_info_file::calc_size_data_in_ascii_bytes;
 
     const COMMON_DATA: &'static [&'static str] = &["1235", "123", "test\x7f"];
 
@@ -17,7 +18,10 @@ mod tests {
 
     #[test]
     fn check_calc_size_data_in_bytes_ascii() {
-        panic!("todo");
+        let actual = calc_size_data_in_ascii_bytes(COMMON_DATA);
+        let expected = 12;
+
+        assert_eq!(actual, expected);
     }
 
     #[test]
