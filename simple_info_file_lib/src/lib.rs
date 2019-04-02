@@ -5,7 +5,7 @@ mod tests {
     use crate::simple_info_file::simple_info_file::count_line;
     use crate::simple_info_file::simple_info_file::count_printable_ascii_symbols;
     use crate::simple_info_file::simple_info_file::calc_size_data_in_ascii_bytes;
-    use crate::simple_info_file::simple_info_file::get_info_file;
+    use crate::simple_info_file::simple_info_file::get_info_text;
     use crate::simple_info_file::simple_info_file::InfoFile;
 
     const COMMON_DATA: &'static [&'static str] = &["1235", "123", "test\x7f"];
@@ -34,17 +34,19 @@ mod tests {
         assert_eq!(actual, expected);
     }
 
-    use std::env;
-    use std::path::Path;
-
     #[test]
-    fn check_get_info_file() {
-        let path = env::current_dir()?.display().join("test.txt")?.to_str();
-        let actual = get_info_file(path);
+    fn check_get_info_text() {
+        // let mut file = File::open(path).expect("Файл не найден");
+        // let data: Vec<String> = io::BufReader::new(file).lines().map(|line| line.unwrap()).collect();
+        // let data: Vec<&str> = data.iter().map(|line| line as &str).collect();
+        // let data: &[&str] = &data;
+
+        // let path = env::current_dir()?.display().join("test.txt")?.to_str();
+        let actual = get_info_text(COMMON_DATA);
         let expected: std::io::Result<InfoFile> = Ok(InfoFile {
             lines: 3,
-            printable_ascii_symbols: 14,
-            size_in_bytes_ascii: 14
+            printable_ascii_symbols: 11,
+            size_in_bytes_ascii: 12
         });
 
         assert_eq!(format!("{:?}", actual), format!("{:?}", expected));
