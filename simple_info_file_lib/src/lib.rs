@@ -1,12 +1,12 @@
-#[path = "simple_info_file.rs"] mod simple_info_file;
+#[path = "simple_info_text.rs"] mod simple_info_text;
 
 #[cfg(test)]
 mod tests {
-    use crate::simple_info_file::simple_info_file::count_line;
-    use crate::simple_info_file::simple_info_file::count_printable_ascii_symbols;
-    use crate::simple_info_file::simple_info_file::calc_size_data_in_ascii_bytes;
-    use crate::simple_info_file::simple_info_file::get_info_text;
-    use crate::simple_info_file::simple_info_file::InfoFile;
+    use crate::simple_info_text::simple_info_text::count_line;
+    use crate::simple_info_text::simple_info_text::count_printable_ascii_symbols;
+    use crate::simple_info_text::simple_info_text::calc_size_data_in_ascii_bytes;
+    use crate::simple_info_text::simple_info_text::get_info_text;
+    use crate::simple_info_text::simple_info_text::InfoText;
 
     const COMMON_DATA: &'static [&'static str] = &["1235", "123", "test\x7f"];
 
@@ -43,7 +43,7 @@ mod tests {
 
         // let path = env::current_dir()?.display().join("test.txt")?.to_str();
         let actual = get_info_text(COMMON_DATA);
-        let expected: std::io::Result<InfoFile> = Ok(InfoFile {
+        let expected: std::io::Result<InfoText> = Ok(InfoText {
             lines: 3,
             printable_ascii_symbols: 11,
             size_in_bytes_ascii: 12

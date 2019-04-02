@@ -1,7 +1,7 @@
-pub mod simple_info_file {
+pub mod simple_info_text {
 
     #[derive(Debug)]
-    pub struct InfoFile {
+    pub struct InfoText {
         pub lines: usize,
         pub printable_ascii_symbols: usize,
         pub size_in_bytes_ascii: usize,
@@ -31,14 +31,8 @@ pub mod simple_info_file {
         count_ascii_chars(data, |i| i.is_ascii())
     }
 
-    use std::fs::File;
-    use std::io::Read;
-    use std::str;
-    use std::io::{self, BufRead};
-    use std::path::Path;
-
-    pub fn get_info_text(text: &[&str]) -> std::io::Result<InfoFile> {
-        let info = InfoFile {
+    pub fn get_info_text(text: &[&str]) -> std::io::Result<InfoText> {
+        let info = InfoText {
             lines: count_line(text),
             printable_ascii_symbols: count_printable_ascii_symbols(text),
             size_in_bytes_ascii: calc_size_data_in_ascii_bytes(text)
