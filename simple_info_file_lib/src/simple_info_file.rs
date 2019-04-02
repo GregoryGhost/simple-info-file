@@ -1,9 +1,9 @@
 pub mod simple_info_file {
     #[derive(Debug)]
     pub struct InfoFile {
-        lines: usize,
-        printable_ascii_symbols: usize,
-        size_in_bytes_ascii: usize,
+        pub lines: usize,
+        pub printable_ascii_symbols: usize,
+        pub size_in_bytes_ascii: usize,
     }
 
 
@@ -32,13 +32,15 @@ pub mod simple_info_file {
 
     use std::fs::File;
     use std::io::Read;
+    use std::str;
+    use std::io::{self, BufRead};
+    use std::path::Path;
 
     pub fn get_info_file(path: &str) -> std::io::Result<InfoFile> {
-        let mut file = try!(File::open(path));
-
-        let mut data = Vec::new();
-        try!(file.read_to_end(&mut data));
-
+        let mut file = File::open(path).expect("Файл не найден");
+        let data: Vec<String> = io::BufReader::new(file).lines().map(|line| line.unwrap()).collect();
+        let data: Vec<&str> = data.iter().map(|line| line as &str).collect();
+        let data: &[&str] = &data;
         let info = InfoFile {
             lines: count_line(data),
             printable_ascii_symbols: count_printable_ascii_symbols(data),

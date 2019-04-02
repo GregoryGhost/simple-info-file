@@ -34,14 +34,18 @@ mod tests {
         assert_eq!(actual, expected);
     }
 
+    use std::env;
+    use std::path::Path;
+
     #[test]
     fn check_get_info_file() {
-        let actual = get_info_file("test.txt");
-        let expected = InfoFile {
+        let path = env::current_dir()?.display().join("test.txt")?.to_str();
+        let actual = get_info_file(path);
+        let expected: std::io::Result<InfoFile> = Ok(InfoFile {
             lines: 3,
             printable_ascii_symbols: 14,
             size_in_bytes_ascii: 14
-        };
+        });
 
         assert_eq!(format!("{:?}", actual), format!("{:?}", expected));
     }
