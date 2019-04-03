@@ -19,6 +19,9 @@ let tests =
             Expect.equal actual expected "не совпало"
         }
         test "посчитать количество байт ASCII" {
+            //TODO: исправить сейчас не считает все ASCII символы
+            //  считает только длину читаемых символов,
+            //  а должен посчитать длину всех символов и затем их размер в байтах.
             let actual = calcSizeDataInBytesAscii commonData
             let expected = 11
             Expect.equal actual expected "не совпало"
