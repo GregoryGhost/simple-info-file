@@ -5,3 +5,4 @@ authors = ["Gregory <KulakovGV@tomskasu.ru>"]
 edition = "2018"
 
 [dependencies]
+simple_info_text_lib = { path = "../simple_info_text_lib" }
