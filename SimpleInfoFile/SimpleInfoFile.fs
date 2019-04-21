@@ -8,35 +8,35 @@ module SimpleInfoFile =
         {
             CountLines: int
             CountAsciiSymbols: int
-            SizeInBytesAscii: int 
+            SizeInBytes: int 
         }
 
-    type InfoData = string list -> int
+    type InfoData = byte[] -> int
 
-    let countLine: InfoData =
-        List.length
+    let private countLine: InfoData =
+        let inc x = x + 1
+        Array.where (fun x -> x = 10uy) >> Array.length >> inc
 
     ///Посчитать количество печатаемых символов в ASCII тексте
-    let countAsciiSymbols: InfoData =
-        let isPrintableAscii (x: char): bool = x >= '\x20' && x <= '\x7e'
-        fun y -> y |> List.map (fun x -> x |> String.filter isPrintableAscii |> String.length) |> List.sum
+    let private countAsciiSymbols: InfoData =
+        let isPrintableAscii (x: byte): bool = 
+            if x >= 32uy && x <= 126uy then
+                true
+            else
+                false
+        Array.filter (isPrintableAscii) >> Array.length
     
-    ///Посчитать размер ASCII текста в байтах
-    let calcSizeDataInBytesAscii: InfoData =
-        let sizeAscii x = x * 1
-        countAsciiSymbols >> sizeAscii
+    ///Посчитать размер текста в байтах
+    let private calcSizeDataInBytes: InfoData =
+        Array.length
 
     let getInfoFile (path: string): InfoFile = 
-        let read = [
-            use sr = new StreamReader (path)
-            while not sr.EndOfStream do
-                yield sr.ReadLine()
-        ]
-        let data = read
+        let data =
+            File.ReadAllBytes(path)
         let result = 
             {
                 CountLines = countLine data
                 CountAsciiSymbols = countAsciiSymbols data
-                SizeInBytesAscii = calcSizeDataInBytesAscii data
+                SizeInBytes = calcSizeDataInBytes data
             }
         result
