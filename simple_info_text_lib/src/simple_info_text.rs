@@ -21,7 +21,7 @@ fn count_line(data: &Vec<u8>) -> usize {
 }
 
 fn count_printable_ascii_symbols(data: &Vec<u8>) -> usize {
-    count_ascii_chars(data, |i| 32u8 <= i && 126u8 <= i)
+    count_ascii_chars(data, |i| 32u8 <= i && i <= 126u8)
 }
 
 fn calc_size_data_in_ascii_bytes(data: &Vec<u8>) -> usize {
