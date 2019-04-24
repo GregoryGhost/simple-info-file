@@ -9,30 +9,26 @@ pub struct InfoText {
 }
 
 
-fn count_ascii_chars(data: &[&str], _callback: fn(char) -> bool) -> usize {
-    let mut acc_ascii: usize = 0;
-    for x in data {
-        acc_ascii += x.chars().fold(0, |acc, i| match _callback(i) {
-            true => acc + 1,
-            false => acc,
-        });
-    }
-    acc_ascii
+fn count_ascii_chars(data: &Vec<u8>, _callback: fn(u8) -> bool) -> usize {
+    data.iter().fold(0, |acc, i| match _callback(*i) {
+        true => acc + 1,
+        false => acc,
+    })
 }
 
-pub fn count_line(data: &[&str]) -> usize {
+fn count_line(data: &Vec<u8>) -> usize {
+    count_ascii_chars(data, |i| i == 10) + 1
+}
+
+fn count_printable_ascii_symbols(data: &Vec<u8>) -> usize {
+    count_ascii_chars(data, |i| 32u8 <= i && i <= 126u8)
+}
+
+fn calc_size_data_in_ascii_bytes(data: &Vec<u8>) -> usize {
     data.len()
 }
 
-pub fn count_printable_ascii_symbols(data: &[&str]) -> usize {
-    count_ascii_chars(data, |i| '\x20' <= i && i <= '\x7E')
-}
-
-pub fn calc_size_data_in_ascii_bytes(data: &[&str]) -> usize {
-    count_ascii_chars(data, |i| i.is_ascii())
-}
-
-pub fn get_info_text(text: &[&str]) -> std::io::Result<InfoText> {
+pub fn get_info_text(text: &Vec<u8>) -> std::io::Result<InfoText> {
     let info = InfoText {
         lines: count_line(text),
         printable_ascii_symbols: count_printable_ascii_symbols(text),

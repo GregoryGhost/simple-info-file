@@ -3,45 +3,21 @@
 
 #[cfg(test)]
 mod tests {
-    use crate::simple_info_text::count_line;
-    use crate::simple_info_text::count_printable_ascii_symbols;
-    use crate::simple_info_text::calc_size_data_in_ascii_bytes;
     use crate::simple_info_text::get_info_text;
     use crate::simple_info_text::InfoText;
 
-    const COMMON_DATA: &'static [&'static str] = &["1235", "123", "test\x7f"];
-
-    #[test]
-    fn check_calc_count_line() {
-        let actual = count_line(COMMON_DATA);
-        let expected = 3;
-        
-        assert_eq!(actual, expected);
-    }
-
-    #[test]
-    fn check_calc_size_data_in_bytes_ascii() {
-        let actual = calc_size_data_in_ascii_bytes(COMMON_DATA);
-        let expected = 12;
-
-        assert_eq!(actual, expected);
-    }
-
-    #[test]
-    fn check_calc_printable_ascii_symbols() {
-        let actual = count_printable_ascii_symbols(COMMON_DATA);
-        let expected = 11;
-
-        assert_eq!(actual, expected);
-    }
+    const BUFFER: &'static [u8] = &[
+        239u8, 187u8, 191u8, 49u8, 50u8, 51u8, 52u8, 13u8, 10u8,
+        116u8, 101u8, 115u8, 116u8, 13u8, 10u8,
+        33u8, 64u8, 35u8, 42u8, 38u8, 94u8];
 
     #[test]
     fn check_get_info_text() {
-        let actual = get_info_text(COMMON_DATA);
+        let actual = get_info_text(&BUFFER.to_vec());
         let expected: std::io::Result<InfoText> = Ok(InfoText {
             lines: 3,
-            printable_ascii_symbols: 11,
-            size_in_bytes_ascii: 12
+            printable_ascii_symbols: 14,
+            size_in_bytes_ascii: 21
         });
 
         assert_eq!(format!("{:?}", actual), format!("{:?}", expected));
