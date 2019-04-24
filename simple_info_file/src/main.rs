@@ -1,6 +1,7 @@
-extern crate simple_info_text_lib;
-use simple_info_text_lib::simple_info_text::get_info_text;
-use simple_info_text_lib::simple_info_text::InfoText;
+#[path = "simple_info_text.rs"] pub mod simple_info_text;
+
+use simple_info_text::get_info_text;
+use simple_info_text::InfoText;
 
 use std::io;
 use std::fs::File;

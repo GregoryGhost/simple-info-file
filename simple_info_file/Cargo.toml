@@ -3,6 +3,3 @@ name = "simple_info_file"
 version = "0.1.0"
 authors = ["Gregory <KulakovGV@tomskasu.ru>"]
 edition = "2018"
-
-[dependencies]
-simple_info_text_lib = { path = "../simple_info_text_lib" }
