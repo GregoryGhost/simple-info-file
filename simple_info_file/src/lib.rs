@@ -1,19 +1,19 @@
 #[path = "simple_info_text.rs"] pub mod simple_info_text;
+#[path = "file_helper.rs"] pub mod file_helper;
 
 
 #[cfg(test)]
 mod tests {
     use crate::simple_info_text::get_info_text;
     use crate::simple_info_text::InfoText;
+    use crate::file_helper::read_file;
 
-    const BUFFER: &'static [u8] = &[
-        239u8, 187u8, 191u8, 49u8, 50u8, 51u8, 52u8, 13u8, 10u8,
-        116u8, 101u8, 115u8, 116u8, 13u8, 10u8,
-        33u8, 64u8, 35u8, 42u8, 38u8, 94u8];
+    const PATH_TO_TEST_FILE: &'static str = "test.txt";
 
     #[test]
     fn check_get_info_text() {
-        let actual = get_info_text(&BUFFER.to_vec());
+        let data = read_file(PATH_TO_TEST_FILE).unwrap();
+        let actual = get_info_text(&data);
         let expected: std::io::Result<InfoText> = Ok(InfoText {
             lines: 3,
             printable_ascii_symbols: 14,

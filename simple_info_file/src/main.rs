@@ -1,20 +1,11 @@
 #[path = "simple_info_text.rs"] pub mod simple_info_text;
+#[path = "file_helper.rs"] pub mod file_helper;
 
 use simple_info_text::get_info_text;
 use simple_info_text::InfoText;
 
 use std::io;
-use std::fs::File;
-use std::io::Read;
-
-fn read_file(path: &str) -> std::io::Result<Vec<u8>> {
-    let mut file = File::open(path).expect("Файл не найден");
-
-    let mut data = Vec::new();
-    file.read_to_end(&mut data).expect("Не удалось прочитать файл");
-
-    Ok(data)
-}
+use file_helper::read_file;
 
 fn main() -> io::Result<()> {
     let mut input = String::new();
