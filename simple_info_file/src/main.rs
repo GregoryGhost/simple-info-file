@@ -6,18 +6,15 @@ use simple_info_text::InfoText;
 
 use std::io;
 use file_helper::read_file;
+use std::env;
+use std::path::Path;
 
 fn main() -> io::Result<()> {
-    let mut input = String::new();
+    let path_arg = env::args().nth(1).expect("Укажите путь к файлу");
+    let path = Path::new(&path_arg);
 
-    println!("Введите путь до файла:");
-    io::stdin().read_line(&mut input)?;
-    let path = input.trim();
-
-    let info: io::Result<InfoText> = match read_file(path) {
-        Ok(buffer) => get_info_text(&buffer),
-        Err(e) => return Err(e),
-    };
+    let file = read_file(&path).unwrap();
+    let info: io::Result<InfoText> = get_info_text(&file);
 
     println!("Информация: {:?}", info);
 
